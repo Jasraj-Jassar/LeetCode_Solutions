@@ -9,37 +9,53 @@ class Solution(object):
             format_string = "{:." + str(decimal_places) + "f}"
             Newnnum = format_string.format(float(num) / place)
             result.append(Newnnum)
+        print("Digit length normalized map:", result)
         return result
 
     def multiply_value_Fun(self, digit_map):
-         result = []
-         for num in digit_map:
-            length = len(str(num))
-            if length == 1:
-                place = 10 ** (length - 1)
-            else:
-                place = 10 ** (length - 2)
-            Newnnum = int(float(num) * place)
+        result = []
+        for num in digit_map:
+            Newnnum = int(str(num).replace('.', ''))
+            print("TESTING_D:", Newnnum )
             result.append(Newnnum)
-         return result
+        print("Multiplied list:", result)
+        return result
 
     def largestNumber(self, nums):
+        print("Original input:", nums)
+
         digit_map = self.get_digit_length_map(nums)
+        
         divided_sort = sorted(digit_map, key=lambda x: (-float(x), x[::-1].find('.')), reverse=False)
+        print("Sorted digit map (A):", divided_sort)
+
+        divided_sort_b = sorted(digit_map, key=lambda x: (-float(x), x[::-1].find('.')), reverse=True)
+        print("Sorted digit map (B):", divided_sort_b)
+
         multiply_sort_list = self.multiply_value_Fun(divided_sort)
-        print(divided_sort)
+        print("Result from multiply A:", multiply_sort_list)
+
+        multiply_sort_list_b = self.multiply_value_Fun(divided_sort_b)
+        print("Result from multiply B:", multiply_sort_list_b)
+
         res = ''.join(map(str, multiply_sort_list))
-        print(res)
-        return(res)
+        res_b = ''.join(map(str, multiply_sort_list_b))
+        print("Concatenated Result A:", res)
+        print("Concatenated Result B:", res_b)
 
+        if int(res) > int(res_b):
+            return res
+        elif int(res) == 0:
+            return "0"
+        else:
+            return res_b
 
-        # divided_list = self.divide_value_Fun(nums)
-        # print(divided_list)
-        # divided_sort = sorted(divided_list.items(), key=lambda x: x[1], reverse=True)
-        # print(divided_sort)
-        # multiply_sort_list = self.multiply_value_Fun(digit_map)
-        # print(divided_list)
-
+    # divided_list = self.divide_value_Fun(nums)
+    # print(divided_list)
+    # divided_sort = sorted(divided_list.items(), key=lambda x: x[1], reverse=True)
+    # print(divided_sort)
+    # multiply_sort_list = self.multiply_value_Fun(digit_map)
+    # print(divided_list)
     #     doublenums = []
     #     for i in nums[:]:
     #         if i >= 10:
