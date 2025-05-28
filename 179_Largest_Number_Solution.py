@@ -1,30 +1,39 @@
 class Solution(object):
 
     def get_digit_length_map(self, nums):
-        result = {}
+        result = []
         for num in nums:
             length = len(str(num))
-            place = (10**length) / 10
-            result[place] = num
+            place = 10 ** (length - 1)
+            decimal_places = length - 1
+            format_string = "{:." + str(decimal_places) + "f}"
+            Newnnum = format_string.format(float(num) / place)
+            result.append(Newnnum)
         return result
 
-
-    # def divide_value_Fun(self, digit_map):
-    #     result = {}
-    #     for length, number in digit_map.items():
-    #         result[length] = number / length
-    #     return result
-
-    # def multiply_value_Fun(self, digit_map):
-    #     result = {}
-    #     for length, number in digit_map.items():
-    #         result[length] = number * length
-    #     return result
+    def multiply_value_Fun(self, digit_map):
+         result = []
+         for num in digit_map:
+            length = len(str(num))
+            if length == 1:
+                place = 10 ** (length - 1)
+            else:
+                place = 10 ** (length - 2)
+            Newnnum = int(float(num) * place)
+            result.append(Newnnum)
+         return result
 
     def largestNumber(self, nums):
         digit_map = self.get_digit_length_map(nums)
-        print(digit_map)
-        # divided_list = self.divide_value_Fun(digit_map)
+        divided_sort = sorted(digit_map, key=lambda x: (-float(x), x[::-1].find('.')), reverse=False)
+        multiply_sort_list = self.multiply_value_Fun(divided_sort)
+        print(divided_sort)
+        res = ''.join(map(str, multiply_sort_list))
+        print(res)
+        return(res)
+
+
+        # divided_list = self.divide_value_Fun(nums)
         # print(divided_list)
         # divided_sort = sorted(divided_list.items(), key=lambda x: x[1], reverse=True)
         # print(divided_sort)
